@@ -17,3 +17,7 @@ provider:
 functions:
   hello:
     handler: src/handlers/hello.handler
+
+custom:
+  bundle:
+    linting: true
