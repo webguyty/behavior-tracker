@@ -1,4 +1,5 @@
 const iplocate = require("node-iplocate");
+var zipcodes = require("zipcodes");
 
 async function createUser(event, context) {
   // Get user IP address and only take first value
@@ -11,9 +12,17 @@ async function createUser(event, context) {
   const firstVisit = now.toISOString();
 
   // Get user location
-  let location = "";
+  let location = {};
   const result = await iplocate(ip);
-  location = result.city;
+  location = {
+    city: result.city,
+    country: result.country,
+    zip: result.postal_code,
+  };
+
+  const zipResults = zipcodes.lookup(location.zip);
+
+  location.state = zipResults.state;
 
   const newUser = {
     ip,
