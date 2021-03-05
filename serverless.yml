@@ -19,7 +19,6 @@ functions:
       - http:
           method: POST
           path: /createUser
-
-custom:
-  bundle:
-    linting: true
+# custom:
+#   bundle:
+#     linting: true
