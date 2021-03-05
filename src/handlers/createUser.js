@@ -1,14 +1,29 @@
+const iplocate = require("node-iplocate");
+
 async function createUser(event, context) {
-  const ip = JSON.parse(event.headers.X - Forwarded - For);
+  // Get user IP address and only take first value
+  let ip = event.headers["X-Forwarded-For"];
+  ip = ip.split(",");
+  ip = ip[0];
+
+  // Set first visit date
   const now = new Date();
+  const firstVisit = now.toISOString();
+
+  // Get user location
+  let location = "";
+  const result = await iplocate(ip);
+  location = result.city;
+
   const newUser = {
     ip,
-    firstVisit: now.toISOString(),
+    location,
+    firstVisit,
   };
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ ip }),
+    body: JSON.stringify({ newUser }),
   };
 }
 

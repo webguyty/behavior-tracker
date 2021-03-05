@@ -1,3 +1,4 @@
 sls deploy -v
+sls deploy -f createUser
 sls remove 
 
