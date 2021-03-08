@@ -12,6 +12,20 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-west-2
 
+resources:
+  Resources:
+    AuctionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PortfolioTrackerTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: ip
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ip
+            KeyType: HASH
+
 functions:
   createUser:
     handler: src/handlers/createUser.handler
