@@ -1,5 +1,8 @@
+import AWS from "aws-sdk";
 const iplocate = require("node-iplocate");
 var zipcodes = require("zipcodes");
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createUser(event, context) {
   // Get user IP address and only take first value
@@ -13,22 +16,29 @@ async function createUser(event, context) {
 
   // Get user location
   let location = {};
-  const result = await iplocate(ip);
+  const ipResult = await iplocate(ip);
   location = {
-    city: result.city,
-    country: result.country,
-    zip: result.postal_code,
+    city: ipResult.city,
+    country: ipResult.country,
+    zip: ipResult.postal_code,
   };
 
+  // Get state location from zip code
   const zipResults = zipcodes.lookup(location.zip);
-
   location.state = zipResults.state;
 
   const newUser = {
     ip,
     location,
-    firstVisit,
+    visits: [firstVisit],
   };
+
+  await dynamodb
+    .put({
+      TableName: "PortfolioTrackerTable",
+      Item: newUser,
+    })
+    .promise();
 
   return {
     statusCode: 201,
