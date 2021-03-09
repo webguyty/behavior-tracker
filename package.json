@@ -19,7 +19,9 @@
   },
   "dependencies": {
     "aws-sdk": "^2.639.0",
+    "gumshoejs": "^5.1.2",
     "node-iplocate": "^1.0.2",
+    "simple-scrollspy": "^2.0.3",
     "zipcodes": "^8.0.0"
   }
 }

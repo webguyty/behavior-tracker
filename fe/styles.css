@@ -1,0 +1,39 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  color: red;
+}
+
+#my-awesome-nav {
+  display: flex;
+  list-style: none;
+  font-size: 25px;
+  line-height: 35px;
+  overflow: hidden;
+  background-color: rgb(211, 211, 211);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-top: 0;
+}
+
+#my-awesome-nav li {
+  margin-left: 30px;
+}
+
+#my-awesome-nav li.active a {
+  font-weight: bold;
+}
+
+div.scrollDiv {
+  border: 1px solid black;
+  margin-bottom: 10px;
+  height: 700px;
+}
+
+.a1 {
+  margin-top: 50px;
+}
