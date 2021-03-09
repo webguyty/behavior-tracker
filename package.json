@@ -4,6 +4,9 @@
   "description": "Tracker for WebGuyTy portfolio",
   "author": "Tyler Austin",
   "license": "MIT",
+  "scripts": {
+    "deployFE": "aws s3 sync ./fe s3://pt-fe-test --delete"
+  },
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
