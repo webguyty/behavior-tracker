@@ -4,6 +4,7 @@
   "description": "Tracker for WebGuyTy portfolio",
   "author": "Tyler Austin",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "deployFE": "aws s3 sync ./fe s3://pt-fe-test --delete"
   },

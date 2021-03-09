@@ -1,11 +1,13 @@
 const apiURL = "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev";
+import "../node_modules/gumshoejs/dist/gumshoe.min.js";
 
 // Initializing gumshoe
 const header = document.querySelector("#my-awesome-nav");
 const spy = new Gumshoe("#my-awesome-nav a", {
-  offset: function () {
-    return header.getBoundingClientRect().height;
-  },
+  // offset: function () {
+  //   return header.getBoundingClientRect().height;
+  // },
+  offset: 200,
 });
 
 // Create user when logging into page
