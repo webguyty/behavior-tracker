@@ -35,7 +35,7 @@ async function createUser(event, context) {
 
   await dynamodb
     .put({
-      TableName: "PortfolioTrackerTable",
+      TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Item: newUser,
     })
     .promise();

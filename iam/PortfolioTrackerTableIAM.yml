@@ -1,0 +1,6 @@
+PortfolioTrackerTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+  Resource:
+    - ${self:custom.PortfolioTrackerTable.arn}
