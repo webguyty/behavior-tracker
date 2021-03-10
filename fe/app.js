@@ -19,6 +19,15 @@ async function createUser() {
   }
 }
 
+async function logDivTime(divStats) {
+  try {
+    const res = await axios.post(`${apiURL}/logDivTime`, divStats);
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // createUser();
 
 // Create object for gumshoe to send
@@ -58,7 +67,8 @@ document.addEventListener(
       divStats.exitTime = now;
     }
 
-    console.log(divStats);
+    logDivTime(divStats);
+    // console.log(divStats);
     divStats = {};
   },
   false
