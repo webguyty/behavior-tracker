@@ -8,17 +8,21 @@ const spy = new Gumshoe("#my-awesome-nav a", {
   offset: 200,
 });
 
-axios
-  .post(`${apiURL}/createUser`)
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+// API Methods
+
+async function createUser() {
+  try {
+    const res = await axios.post(`${apiURL}/createUser`);
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// createUser();
 
 // Create object for gumshoe to send
-const divStats = {
+let divStats = {
   div: "",
   enterTime: "",
   exitTime: "",
@@ -47,9 +51,15 @@ document.addEventListener(
   (event) => {
     const divID = event.detail.content.id;
 
-    if (divID !== "content") {
-      console.log("Exiting " + divID);
+    if (divID === divStats.div) {
+      // Div enter time
+      let now = new Date();
+      now = now.toISOString();
+      divStats.exitTime = now;
     }
+
+    console.log(divStats);
+    divStats = {};
   },
   false
 );
