@@ -19,9 +19,15 @@
     "webpack": "^4.35.2"
   },
   "dependencies": {
+    "@middy/core": "^1.5.2",
+    "@middy/http-cors": "^1.5.2",
+    "@middy/http-error-handler": "^1.5.2",
+    "@middy/http-event-normalizer": "^1.5.2",
+    "@middy/http-json-body-parser": "^1.5.2",
     "aws-sdk": "^2.639.0",
     "axios": "^0.21.1",
     "gumshoejs": "^5.1.2",
+    "http-errors": "^1.8.0",
     "node-iplocate": "^1.0.2",
     "simple-scrollspy": "^2.0.3",
     "zipcodes": "^8.0.0"

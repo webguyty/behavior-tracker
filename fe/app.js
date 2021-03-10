@@ -28,7 +28,7 @@ async function logDivTime(divStats) {
   }
 }
 
-// createUser();
+createUser();
 
 // Create object for gumshoe to send
 let divStats = {
