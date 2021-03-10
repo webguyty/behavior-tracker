@@ -16,3 +16,27 @@ fetch(`${apiURL}/createUser`, {
 })
   .then((res) => res.json())
   .then((data) => console.log(data));
+
+document.addEventListener(
+  "gumshoeActivate",
+  (event) => {
+    const divID = event.detail.content.id;
+
+    if (divID !== "content") {
+      console.log("Entering " + divID);
+    }
+  },
+  false
+);
+
+document.addEventListener(
+  "gumshoeDeactivate",
+  (event) => {
+    const divID = event.detail.content.id;
+
+    if (divID !== "content") {
+      console.log("Exiting " + divID);
+    }
+  },
+  false
+);
