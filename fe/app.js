@@ -1,4 +1,4 @@
-import "../node_modules/gumshoejs/dist/gumshoe.min.js";
+// import "../node_modules/gumshoejs/dist/gumshoe.min.js";
 
 const apiURL = "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev";
 
@@ -12,20 +12,46 @@ const spy = new Gumshoe("#my-awesome-nav a", {
 
 async function createUser() {
   try {
-    const res = await axios.post(`${apiURL}/createUser`);
+    const res = await axios.post(
+      "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/createUser"
+    );
     console.log(res.data);
   } catch (err) {
     console.log(err);
   }
 }
 
-async function logDivTime(divStats) {
-  try {
-    const res = await axios.post(`${apiURL}/logDivTime`, divStats);
-    console.log(res.data);
-  } catch (err) {
-    console.log(err);
-  }
+async function logDivTime() {
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
+
+  // try {
+  //   const res = await axios.post(
+  //     `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
+  //     { test: "test 1", test2: "test 2" },
+  //     config
+  //   );
+
+  //   console.log(res.data);
+  // } catch (err) {
+  //   console.log(err);
+  // }
+
+  const res = await fetch(
+    "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: "okay",
+    }
+  );
+
+  console.log(res);
 }
 
 createUser();

@@ -27,12 +27,14 @@ functions:
       - http:
           method: POST
           path: /createUser
+
   logDivTime:
     handler: src/handlers/logDivTime.handler
     events:
       - http:
           method: POST
           path: /logDivTime
+
 custom:
   PortfolioTrackerTable:
     name: !Ref PortfolioTrackerTable
