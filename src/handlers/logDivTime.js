@@ -15,9 +15,10 @@ async function logDivTime(event, context) {
     statusCode: 200,
     // Headers required for CORS
     headers: {
-      "Access-Control-Allow-Headers": "X-PINGOTHER, Content-Type, Origin",
+      "Access-Control-Allow-Headers":
+        "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+      "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
       "Access-Control-Allow-Credentials": true,
       "Access-Control-Max-Age": 86400,
     },

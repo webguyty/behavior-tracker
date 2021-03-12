@@ -47,7 +47,7 @@ async function logDivTime() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: "okay",
+      body: JSON.stringify("Hello from Lambda!"),
     }
   );
 
