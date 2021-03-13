@@ -22,36 +22,23 @@ async function createUser() {
 }
 
 async function logDivTime() {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-  // try {
-  //   const res = await axios.post(
-  //     `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
-  //     { test: "test 1", test2: "test 2" },
-  //     config
-  //   );
+  try {
+    const res = await axios.post(
+      `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
+      { test: "test 1", test2: "test 2" },
+      config
+    );
 
-  //   console.log(res.data);
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
-  const res = await fetch(
-    "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify("Hello from Lambda!"),
-    }
-  );
-
-  console.log(res);
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 createUser();
