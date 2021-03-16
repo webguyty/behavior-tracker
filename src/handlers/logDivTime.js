@@ -9,20 +9,17 @@ import httpErrorHandler from "@middy/http-error-handler";
 // import cors from "@middy/http-cors";
 
 async function logDivTime(event, context) {
-  // let info = event.payload;
+  let info = event.body;
 
   return {
     statusCode: 200,
     // Headers required for CORS
     headers: {
-      "Access-Control-Allow-Headers":
-        "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+      "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
-      "Access-Control-Allow-Credentials": true,
-      "Access-Control-Max-Age": 86400,
+      "Access-Control-Allow-Methods": "OPTIONS,POST",
     },
-    body: "Success",
+    body: JSON.stringify(info),
   };
 }
 
