@@ -31,5 +31,8 @@
     "node-iplocate": "^1.0.2",
     "simple-scrollspy": "^2.0.3",
     "zipcodes": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=15.0.0"
   }
 }
