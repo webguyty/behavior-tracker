@@ -41,15 +41,22 @@ async function createUser(event, context) {
   };
 
   try {
+    const table = process.env.PORTFOLIO_TRACKER_TABLE_NAME;
     await dynamodb
       .put({
-        TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
+        TableName: table,
         Item: newUser,
       })
       .promise();
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST",
+      },
       body: JSON.stringify(newUser),
+      // body: "Success",
     };
   } catch (error) {
     console.error(error);

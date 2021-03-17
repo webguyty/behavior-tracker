@@ -36,6 +36,8 @@ functions:
           path: /logDivTime
 
 custom:
+  bundle:
+    linting: false
   PortfolioTrackerTable:
     name: !Ref PortfolioTrackerTable
     arn: !GetAtt PortfolioTrackerTable.Arn
