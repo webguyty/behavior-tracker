@@ -15,13 +15,15 @@ async function createUser() {
     const res = await axios.post(
       "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/createUser"
     );
+
+    sessionStorage.setItem("user", JSON.stringify(res.data));
     console.log(res.data);
   } catch (err) {
     console.log(err);
   }
 }
 
-async function logDivTime() {
+async function logDivTime(info) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +33,7 @@ async function logDivTime() {
   try {
     const res = await axios.post(
       `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
-      { test: "test 1", test2: "test 2" },
+      info,
       config
     );
 

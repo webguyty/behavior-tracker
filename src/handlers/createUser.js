@@ -19,7 +19,7 @@ async function createUser(event, context) {
 
   // Set first visit date
   const now = new Date();
-  const firstVisit = now.toISOString();
+  const visit = now.toISOString();
 
   // Get user location
   let location = {};
@@ -37,7 +37,7 @@ async function createUser(event, context) {
   const newUser = {
     ip,
     location,
-    visits: [firstVisit],
+    visits: [visit],
   };
 
   try {
@@ -47,15 +47,14 @@ async function createUser(event, context) {
         Item: newUser,
       })
       .promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(newUser),
+    };
   } catch (error) {
     console.error(error);
     throw new createHttpError.InternalServerError(error);
   }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(newUser),
-  };
 }
 
 export const handler = middy(createUser)
