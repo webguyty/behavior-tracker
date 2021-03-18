@@ -11,7 +11,7 @@ import cors from "@middy/http-cors";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function createUser(event, context) {
+async function logUser(event, context) {
   // Get user IP address and only take first value
   let ip = event.headers["X-Forwarded-For"];
   ip = ip.split(",");
@@ -64,7 +64,7 @@ async function createUser(event, context) {
   }
 }
 
-export const handler = middy(createUser)
+export const handler = middy(logUser)
   .use(httpJsonBodyParser())
   .use(httpEventNormalizer())
   .use(httpErrorHandler())

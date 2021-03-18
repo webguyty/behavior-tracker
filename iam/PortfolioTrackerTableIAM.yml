@@ -2,5 +2,8 @@ PortfolioTrackerTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
+    - dynamodb:UpdateItem
+    - dynamodb:GetItem
+    - dynamodb:Scan
   Resource:
     - ${self:custom.PortfolioTrackerTable.arn}

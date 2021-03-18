@@ -1,6 +1,6 @@
 // import "../node_modules/gumshoejs/dist/gumshoe.min.js";
 
-const apiURL = "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev";
+const apiURL = "https://k73ftbe5yi.execute-api.us-west-2.amazonaws.com/dev";
 
 // Initializing gumshoe
 const header = document.querySelector("#my-awesome-nav");
@@ -10,10 +10,10 @@ const spy = new Gumshoe("#my-awesome-nav a", {
 
 // API Methods
 
-async function createUser() {
+async function logUser() {
   try {
     const res = await axios.post(
-      "https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/createUser"
+      "https://k73ftbe5yi.execute-api.us-west-2.amazonaws.com/dev/logUser"
     );
 
     sessionStorage.setItem("user", JSON.stringify(res.data));
@@ -43,7 +43,7 @@ async function logDivTime(info) {
   }
 }
 
-createUser();
+logUser();
 
 // Create object for gumshoe to send
 let divStats = {
