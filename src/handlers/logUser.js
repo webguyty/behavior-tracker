@@ -34,20 +34,31 @@ async function logUser(event, context) {
   const zipResults = zipcodes.lookup(location.zip);
   location.state = zipResults.state;
 
-  const newUser = {
+  const user = {
     ip,
     location,
     visits: [visit],
   };
 
   try {
-    const table = process.env.PORTFOLIO_TRACKER_TABLE_NAME;
-    await dynamodb
-      .put({
-        TableName: table,
-        Item: newUser,
-      })
-      .promise();
+    const params = {
+      TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
+      Key: { ip: user.ip },
+      UpdateExpression:
+        "SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :empty_list), :visits)",
+      ExpressionAttributeNames: {
+        "#ul": "userLocation",
+        "#v": "visits",
+      },
+      ExpressionAttributeValues: {
+        ":userLocation": user.location,
+        ":visits": user.visits,
+        ":empty_list": { L: [] },
+      },
+    };
+
+    const result = await dynamodb.update(params).promise();
+
     return {
       statusCode: 200,
       headers: {
@@ -55,8 +66,7 @@ async function logUser(event, context) {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST",
       },
-      body: JSON.stringify(newUser),
-      // body: "Success",
+      body: JSON.stringify(user),
     };
   } catch (error) {
     console.error(error);
