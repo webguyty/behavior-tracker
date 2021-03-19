@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import cors from "../../utils/cors";
 const iplocate = require("node-iplocate");
 var zipcodes = require("zipcodes");
 
@@ -7,11 +8,12 @@ import httpJsonBodyParser from "@middy/http-json-body-parser";
 import httpEventNormalizer from "@middy/http-event-normalizer";
 import httpErrorHandler from "@middy/http-error-handler";
 import createHttpError from "http-errors";
-import cors from "@middy/http-cors";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function logUser(event, context) {
+  console.log(`Ohhhhhhh yeahhhhh ${cors()}`);
+
   // Get user IP address and only take first value
   let ip = event.headers["X-Forwarded-For"];
   ip = ip.split(",");
@@ -78,5 +80,4 @@ async function logUser(event, context) {
 export const handler = middy(logUser)
   .use(httpJsonBodyParser())
   .use(httpEventNormalizer())
-  .use(httpErrorHandler())
-  .use(cors());
+  .use(httpErrorHandler());
