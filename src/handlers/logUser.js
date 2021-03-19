@@ -55,6 +55,7 @@ async function logUser(event, context) {
         ":visits": [visit],
         ":create_list": [],
       },
+      ReturnValues: "ALL_NEW",
     };
 
     const result = await dynamodb.update(params).promise();
@@ -66,7 +67,7 @@ async function logUser(event, context) {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(result.Attributes),
     };
   } catch (error) {
     console.error(error);

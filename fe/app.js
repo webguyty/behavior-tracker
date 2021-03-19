@@ -8,6 +8,9 @@ const spy = new Gumshoe("#my-awesome-nav a", {
   offset: 200,
 });
 
+// User state
+let user = {};
+
 // API Methods
 
 async function logUser() {
@@ -17,30 +20,31 @@ async function logUser() {
     );
 
     sessionStorage.setItem("user", JSON.stringify(res.data));
-    console.log(res.data);
+    user = res.data;
   } catch (err) {
     console.log(err);
   }
 }
 
 async function logDivTime(info) {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  // const config = {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // };
 
-  try {
-    const res = await axios.post(
-      `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
-      info,
-      config
-    );
+  // try {
+  //   const res = await axios.post(
+  //     `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
+  //     info,
+  //     config
+  //   );
 
-    console.log(res.data);
-  } catch (err) {
-    console.log(err);
-  }
+  // console.log(res.data);
+  console.log(user);
+  // } catch (err) {
+  //   console.log(err);
+  // }
 }
 
 logUser();
