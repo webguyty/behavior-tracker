@@ -45,15 +45,15 @@ async function logUser(event, context) {
       TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Key: { ip: user.ip },
       UpdateExpression:
-        "SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :empty_list), :visits)",
+        "SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :create_list), :visits)",
       ExpressionAttributeNames: {
         "#ul": "userLocation",
         "#v": "visits",
       },
       ExpressionAttributeValues: {
         ":userLocation": user.location,
-        ":visits": user.visits,
-        ":empty_list": { L: [] },
+        ":visits": [visit],
+        ":create_list": [],
       },
     };
 
