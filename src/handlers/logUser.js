@@ -1,16 +1,11 @@
 import AWS from "aws-sdk";
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
 import corsHeaders from "../../utils/corsHeaders";
+const cors = corsHeaders();
+
 const iplocate = require("node-iplocate");
 var zipcodes = require("zipcodes");
-
-import middy from "@middy/core";
-import httpJsonBodyParser from "@middy/http-json-body-parser";
-import httpEventNormalizer from "@middy/http-event-normalizer";
-// import httpErrorHandler from "@middy/http-error-handler";
-// import createHttpError from "http-errors";
-
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const cors = corsHeaders();
 
 async function logUser(event, context) {
   // Get user IP address and only take first value
@@ -62,7 +57,7 @@ async function logUser(event, context) {
     const result = await dynamodb.update(params).promise();
 
     return {
-      statusCode: 200,
+      statusCode: 201,
       headers: cors,
       body: JSON.stringify(result.Attributes),
     };
@@ -71,12 +66,9 @@ async function logUser(event, context) {
     return {
       statusCode: 500,
       headers: cors,
-      body: JSON.stringify(error),
+      body: "A horrible error has occured",
     };
   }
 }
 
-export const handler = middy(logUser)
-  .use(httpJsonBodyParser())
-  .use(httpEventNormalizer());
-// .use(httpErrorHandler());
+export const handler = logUser;

@@ -27,7 +27,7 @@ async function logUser() {
   }
 }
 
-async function logDivTime(info) {
+async function logDiv(info) {
   // const config = {
   //   headers: {
   //     "Content-Type": "application/json",
@@ -35,7 +35,7 @@ async function logDivTime(info) {
   // };
 
   // try {
-  //   const res = await axios.post(
+  //   const res = await axios.patch(
   //     `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
   //     info,
   //     config

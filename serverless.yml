@@ -29,11 +29,11 @@ functions:
           path: /logUser
 
   logDivTime:
-    handler: src/handlers/logDivTime.handler
+    handler: src/handlers/logDiv.handler
     events:
       - http:
-          method: POST
-          path: /logDivTime
+          method: PATCH
+          path: /logDiv
 
 custom:
   bundle:
