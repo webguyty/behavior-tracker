@@ -21,8 +21,9 @@ async function logUser() {
 
     sessionStorage.setItem("user", JSON.stringify(res.data));
     user = res.data;
+    console.log(user);
   } catch (err) {
-    console.log(err);
+    console.log("errororooror");
   }
 }
 

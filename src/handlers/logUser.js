@@ -1,19 +1,18 @@
 import AWS from "aws-sdk";
-import cors from "../../utils/cors";
+import corsHeaders from "../../utils/corsHeaders";
 const iplocate = require("node-iplocate");
 var zipcodes = require("zipcodes");
 
 import middy from "@middy/core";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import httpEventNormalizer from "@middy/http-event-normalizer";
-import httpErrorHandler from "@middy/http-error-handler";
-import createHttpError from "http-errors";
+// import httpErrorHandler from "@middy/http-error-handler";
+// import createHttpError from "http-errors";
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
+const cors = corsHeaders();
 
 async function logUser(event, context) {
-  console.log(`Ohhhhhhh yeahhhhh ${cors()}`);
-
   // Get user IP address and only take first value
   let ip = event.headers["X-Forwarded-For"];
   ip = ip.split(",");
@@ -39,7 +38,7 @@ async function logUser(event, context) {
   const user = {
     ip,
     location,
-    visits: [visit],
+    visit: [visit],
   };
 
   try {
@@ -47,14 +46,14 @@ async function logUser(event, context) {
       TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Key: { ip: user.ip },
       UpdateExpression:
-        "SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :create_list), :visits)",
+        "SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :create_list), :visit)",
       ExpressionAttributeNames: {
         "#ul": "userLocation",
         "#v": "visits",
       },
       ExpressionAttributeValues: {
         ":userLocation": user.location,
-        ":visits": [visit],
+        ":visit": user.visit,
         ":create_list": [],
       },
       ReturnValues: "ALL_NEW",
@@ -64,20 +63,20 @@ async function logUser(event, context) {
 
     return {
       statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST",
-      },
+      headers: cors,
       body: JSON.stringify(result.Attributes),
     };
   } catch (error) {
     console.error(error);
-    throw new createHttpError.InternalServerError(error);
+    return {
+      statusCode: 500,
+      headers: cors,
+      body: JSON.stringify(error),
+    };
   }
 }
 
 export const handler = middy(logUser)
   .use(httpJsonBodyParser())
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+  .use(httpEventNormalizer());
+// .use(httpErrorHandler());
