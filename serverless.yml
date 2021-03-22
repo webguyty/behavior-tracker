@@ -27,17 +27,19 @@ functions:
       - http:
           method: POST
           path: /logUser
+          cors: true
 
-  logDivTime:
+  logDiv:
     handler: src/handlers/logDiv.handler
     events:
       - http:
           method: PATCH
           path: /logDiv
+          cors: true
 
 custom:
   bundle:
-    linting: false
+    linting: true
   PortfolioTrackerTable:
     name: !Ref PortfolioTrackerTable
     arn: !GetAtt PortfolioTrackerTable.Arn

@@ -1,6 +1,6 @@
 // import "../node_modules/gumshoejs/dist/gumshoe.min.js";
 
-const apiURL = "https://k73ftbe5yi.execute-api.us-west-2.amazonaws.com/dev";
+const apiURL = "https://ywhvk48wn5.execute-api.us-west-2.amazonaws.com/dev";
 
 // Initializing gumshoe
 const header = document.querySelector("#my-awesome-nav");
@@ -13,46 +13,40 @@ let user = {};
 
 // API Methods
 
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 async function logUser() {
   try {
-    const res = await axios.post(
-      "https://k73ftbe5yi.execute-api.us-west-2.amazonaws.com/dev/logUser"
-    );
+    const res = await axios.post(`${apiURL}/logUser`);
 
-    sessionStorage.setItem("user", JSON.stringify(res.data));
     user = res.data;
     console.log(user);
   } catch (err) {
-    console.log("errororooror");
+    console.log(err);
   }
 }
 
 async function logDiv(info) {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
+  try {
+    const res = await axios.patch(`${apiURL}/logDiv`, {
+      firstName: "Bitchboy",
+    });
 
-  // try {
-  //   const res = await axios.patch(
-  //     `https://3uw8yuipx5.execute-api.us-west-2.amazonaws.com/dev/logDivTime`,
-  //     info,
-  //     config
-  //   );
-
-  // console.log(res.data);
-  console.log(user);
-  // } catch (err) {
-  //   console.log(err);
-  // }
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 logUser();
 
 // Create object for gumshoe to send
 let divStats = {
-  div: "",
+  divName: "",
   enterTime: "",
   exitTime: "",
 };
@@ -64,7 +58,7 @@ document.addEventListener(
   (event) => {
     // Div name
     const divID = event.detail.content.id;
-    divStats.div = divID;
+    divStats.divName = divID;
 
     // Div enter time
     let now = new Date();
@@ -80,14 +74,20 @@ document.addEventListener(
   (event) => {
     const divID = event.detail.content.id;
 
-    if (divID === divStats.div) {
-      // Div enter time
+    // If things are are working correctly give exit time
+    if (divID === divStats.divName) {
+      // Div exit time
       let now = new Date();
       now = now.toISOString();
       divStats.exitTime = now;
+    } else {
+      // Create an error message to read in DB
+      divStats.divName = `${divID} - page reloaded`;
+      divStats.enterTime = now;
+      divStats.exitTime = now;
     }
 
-    logDivTime(divStats);
+    logDiv(divStats);
     // console.log(divStats);
     divStats = {};
   },
