@@ -8,10 +8,14 @@ const spy = new Gumshoe("#my-awesome-nav a", {
   offset: 200,
 });
 
+//
 // User state
+//
 let user = {};
 
+//
 // API Methods
+//
 
 const config = {
   headers: {
@@ -61,7 +65,7 @@ document.addEventListener(
 
     // Div enter time
     let now = new Date();
-    divStats.enterTime = now;
+    divStats.enterTime = now.toISOString();
   },
   false
 );
@@ -72,7 +76,7 @@ document.addEventListener(
   (event) => {
     const divID = event.detail.content.id;
     let now = new Date();
-    // now = now.toISOString();
+    now = now.toISOString();
 
     // If things are are working correctly give exit time
     if (divID === divStats.divName) {

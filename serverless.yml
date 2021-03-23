@@ -28,6 +28,7 @@ functions:
           method: POST
           path: /logUser
           cors: true
+    memorySize: 256
 
   logDiv:
     handler: src/handlers/logDiv.handler
@@ -39,7 +40,7 @@ functions:
 
 custom:
   bundle:
-    linting: true
+    linting: false
   PortfolioTrackerTable:
     name: !Ref PortfolioTrackerTable
     arn: !GetAtt PortfolioTrackerTable.Arn
