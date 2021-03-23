@@ -4,10 +4,8 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 import corsHeaders from "../../utils/corsHeaders";
 const cors = corsHeaders();
 
-async function getUser(event, context) {
-  let ip = event.headers["X-Forwarded-For"];
-  ip = ip.split(",");
-  ip = ip[0];
+async function getUserByIP(event, context) {
+  const ip = event.pathParameters.ip;
 
   const params = {
     TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
@@ -34,4 +32,4 @@ async function getUser(event, context) {
   }
 }
 
-export const handler = getUser;
+export const handler = getUserByIP;

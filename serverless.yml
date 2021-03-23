@@ -38,6 +38,22 @@ functions:
           path: /logDiv
           cors: true
 
+  getUser:
+    handler: src/handlers/getUser.handler
+    events:
+      - http:
+          method: GET
+          path: /user
+          cors: true
+
+  getUserByIP:
+    handler: src/handlers/getUserByIP.handler
+    events:
+      - http:
+          method: GET
+          path: /user/{ip}
+          cors: true
+
 custom:
   bundle:
     linting: false
