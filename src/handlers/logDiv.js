@@ -5,12 +5,13 @@ import corsHeaders from "../../utils/corsHeaders";
 const cors = corsHeaders();
 
 async function logDiv(event, context) {
-  // let info = event.body;
+  const info = JSON.parse(event.body);
+  const { divName, enterTime, exitTime } = info;
 
   return {
     statusCode: 200,
     headers: cors,
-    body: "okay",
+    body: divName + enterTime + exitTime,
   };
 }
 

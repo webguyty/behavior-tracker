@@ -32,9 +32,7 @@ async function logUser() {
 
 async function logDiv(info) {
   try {
-    const res = await axios.patch(`${apiURL}/logDiv`, {
-      firstName: "Bitchboy",
-    });
+    const res = await axios.patch(`${apiURL}/logDiv`, info, config);
 
     console.log(res.data);
   } catch (err) {
@@ -49,6 +47,7 @@ let divStats = {
   divName: "",
   enterTime: "",
   exitTime: "",
+  divTime: "",
 };
 
 // When div becomes active on screen, activate Gumshoe
@@ -62,7 +61,6 @@ document.addEventListener(
 
     // Div enter time
     let now = new Date();
-    now = now.toISOString();
     divStats.enterTime = now;
   },
   false
@@ -73,15 +71,15 @@ document.addEventListener(
   "gumshoeDeactivate",
   (event) => {
     const divID = event.detail.content.id;
+    let now = new Date();
+    // now = now.toISOString();
 
     // If things are are working correctly give exit time
     if (divID === divStats.divName) {
       // Div exit time
-      let now = new Date();
-      now = now.toISOString();
       divStats.exitTime = now;
     } else {
-      // Create an error message to read in DB
+      // Create a divStats object that had to result from page reload or some type of error
       divStats.divName = `${divID} - page reloaded`;
       divStats.enterTime = now;
       divStats.exitTime = now;
