@@ -11,6 +11,7 @@ const spy = new Gumshoe("#my-awesome-nav a", {
 //
 // User state
 //
+//
 let user = {};
 
 //
