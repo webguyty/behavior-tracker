@@ -44,7 +44,7 @@ async function logDiv(info) {
   }
 }
 
-logUser();
+// logUser();
 
 // Create object for gumshoe to send
 let divStats = {
@@ -89,9 +89,22 @@ document.addEventListener(
       divStats.exitTime = now;
     }
 
-    logDiv(divStats);
-    // console.log(divStats);
+    // logDiv(divStats);
+
     divStats = {};
   },
   false
 );
+
+//
+// Event listeners for links
+//
+
+const links = document.querySelectorAll("a");
+
+links.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    console.log(link.hash);
+  });
+});
+// console.log(links);
