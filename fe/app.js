@@ -44,6 +44,16 @@ async function logDiv(info) {
   }
 }
 
+async function logLink(info) {
+  try {
+    const res = await axios.patch(`${apiURL}/logLink`, info, config);
+
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // logUser();
 
 // Create object for gumshoe to send
@@ -104,7 +114,7 @@ const links = document.querySelectorAll("a");
 
 links.forEach((link) => {
   link.addEventListener("click", (e) => {
-    console.log(link.href);
+    logLink({ link: link.href });
   });
 });
-console.log(links);
+// console.log(links);
