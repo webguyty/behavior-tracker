@@ -7,6 +7,11 @@ h1 {
   color: rgb(202, 193, 193);
 }
 
+a {
+  font-size: 20px;
+  color: white;
+}
+
 #my-awesome-nav {
   display: flex;
   list-style: none;
