@@ -104,7 +104,7 @@ const links = document.querySelectorAll("a");
 
 links.forEach((link) => {
   link.addEventListener("click", (e) => {
-    console.log(link.hash);
+    console.log(link.href);
   });
 });
-// console.log(links);
+console.log(links);

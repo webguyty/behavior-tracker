@@ -38,6 +38,14 @@ functions:
           path: /logDiv
           cors: true
 
+  logLink:
+    handler: src/handlers/logLink.handler
+    events:
+      - http:
+          method: PATCH
+          path: /logLink
+          cors: true
+
   getUser:
     handler: src/handlers/getUser.handler
     events:
