@@ -1,10 +1,10 @@
 // import "../node_modules/gumshoejs/dist/gumshoe.min.js";
 
-const apiURL = "https://ywhvk48wn5.execute-api.us-west-2.amazonaws.com/dev";
+const apiURL = 'https://ywhvk48wn5.execute-api.us-west-2.amazonaws.com/dev';
 
 // Initializing gumshoe
-const header = document.querySelector("#my-awesome-nav");
-const spy = new Gumshoe("#my-awesome-nav a", {
+const header = document.querySelector('#my-awesome-nav');
+const spy = new Gumshoe('#my-awesome-nav a', {
   offset: 200,
 });
 
@@ -20,7 +20,7 @@ let user = {};
 
 const config = {
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 };
 
@@ -59,17 +59,17 @@ async function logLink(info) {
 
 // Create object for gumshoe to send
 let divStats = {
-  divName: "",
-  enterTime: "",
-  exitTime: "",
-  divTime: "",
+  divName: '',
+  enterTime: '',
+  exitTime: '',
+  divTime: '',
 };
 
 // When div becomes active on screen, activate Gumshoe
 
 document.addEventListener(
-  "gumshoeActivate",
-  (event) => {
+  'gumshoeActivate',
+  event => {
     // Div name
     const divID = event.detail.content.id;
     divStats.divName = divID;
@@ -83,8 +83,8 @@ document.addEventListener(
 
 // When div becomes deactive on screen, deactivate Gumshoe
 document.addEventListener(
-  "gumshoeDeactivate",
-  (event) => {
+  'gumshoeDeactivate',
+  event => {
     const divID = event.detail.content.id;
     let now = new Date();
     now = now.toISOString();
@@ -111,10 +111,10 @@ document.addEventListener(
 // Event listeners for links
 //
 
-const links = document.querySelectorAll("a");
+const links = document.querySelectorAll('a');
 
-links.forEach((link) => {
-  link.addEventListener("click", (e) => {
+links.forEach(link => {
+  link.addEventListener('click', e => {
     logLink({ link: link.href });
   });
 });
