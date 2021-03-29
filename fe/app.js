@@ -55,7 +55,7 @@ async function logLink(info) {
   }
 }
 
-// logUser();
+logUser();
 
 // Create object for gumshoe to send
 let divStats = {
@@ -100,7 +100,7 @@ document.addEventListener(
       divStats.exitTime = now;
     }
 
-    // logDiv(divStats);
+    logDiv(divStats);
 
     divStats = {};
   },
