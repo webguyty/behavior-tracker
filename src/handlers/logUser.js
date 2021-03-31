@@ -40,7 +40,8 @@ async function logUser(event, context) {
     TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
     Key: { ip: user.ip },
     UpdateExpression:
-      'SET #ul = :userLocation, #v = list_append(if_not_exists(#v, :create_list), :visit), divVisits = :create_list, linksClicked = :create_list',
+      'SET #ul = :userLocation, \
+      #v = list_append(if_not_exists(#v, :create_list), :visit)',
     ExpressionAttributeNames: {
       '#ul': 'userLocation',
       '#v': 'visits',
