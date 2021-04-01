@@ -17,6 +17,8 @@ async function getUser(event, context) {
   try {
     let result = await dynamodb.get(params).promise();
 
+    result = result.Item ? result.Item : 'No records found';
+
     return {
       statusCode: 200,
       headers: cors,
