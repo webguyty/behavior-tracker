@@ -1,4 +1,4 @@
-import Gumshoe from 'gumshoejs/dist/gumshoe.polyfills';
+// import Gumshoe from 'gumshoejs/dist/gumshoe.polyfills';
 import axios from 'axios';
 
 class trackerApp {
@@ -42,7 +42,7 @@ class trackerApp {
     });
 
     // Log user's info into db and into user obj
-    // this.logUser();
+    this.logUser();
 
     // Configure for reading first div 'header' when page loads. If page is reloaded a reload message will appear
     this.divStats.divName = 'header';
@@ -50,10 +50,12 @@ class trackerApp {
     this.divStats.enterTime = now.toISOString();
 
     // Add gumshoe event listeners for logging divs entered and exited
-    // this.gsDivEnter();
-    // this.gsDivExit();
+    this.gsDivEnter();
+    this.gsDivExit();
     // Add listeners for logging links visisted
-    // this.linkListeners();
+    this.linkListeners();
+
+    console.log('started');
   }
 
   //
@@ -170,6 +172,20 @@ class trackerApp {
     try {
       const res = await axios.patch(
         `${this.apiURL}/logLink`,
+        info,
+        this.axiosConfig
+      );
+
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  logSession = async info => {
+    try {
+      const res = await axios.patch(
+        `${this.apiURL}/logSession`,
         info,
         this.axiosConfig
       );

@@ -1,4 +1,10 @@
-// import "../node_modules/gumshoejs/dist/gumshoe.min.js";
+// import trackerApp from './trackerApp';
+
+// const tracker = new trackerApp();
+
+// tracker.start();
+
+import '../node_modules/gumshoejs/dist/gumshoe.min.js';
 
 const apiURL = 'https://ywhvk48wn5.execute-api.us-west-2.amazonaws.com/dev';
 

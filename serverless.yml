@@ -30,6 +30,15 @@ functions:
           cors: true
     memorySize: 256
 
+  logSession:
+    handler: src/handlers/logSession.handler
+    events:
+      - http:
+          method: POST
+          path: /logSession
+          cors: true
+    memorySize: 256
+
   logDiv:
     handler: src/handlers/logDiv.handler
     events:
