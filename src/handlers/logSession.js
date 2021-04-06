@@ -6,12 +6,12 @@ const cors = corsHeaders();
 
 async function logSession(event, context) {
   const info = JSON.parse(event.body);
-  const { sessionTime, enterTime, exitTime } = info;
+  let { enterTime, exitTime } = info;
 
   // Find length of time on div
-  const enterDate = new Date(enterTime);
-  const exitDate = new Date(exitTime);
-  const sessionTime = (exitDate - enterDate) / 1000;
+  enterTime = new Date(enterTime);
+  exitTime = new Date(exitTime);
+  let sessionTime = (exitTime - enterTime) / 1000;
 
   const sessionArr = [
     {

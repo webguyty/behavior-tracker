@@ -1,5 +1,5 @@
 // import Gumshoe from 'gumshoejs/dist/gumshoe.polyfills';
-import axios from 'axios';
+// import axios from 'axios';
 
 class trackerApp {
   constructor() {
@@ -23,6 +23,11 @@ class trackerApp {
       headers: {
         'Content-Type': 'application/json',
       },
+    };
+
+    this.sessionStats = {
+      enterTime: '',
+      exitTime: '',
     };
 
     // For logging stats of the divs visited in GumShoe
@@ -55,7 +60,34 @@ class trackerApp {
     // Add listeners for logging links visisted
     this.linkListeners();
 
+    this.sessionLogInit();
+
     console.log('started');
+  }
+
+  //
+  // Session event listener
+  //
+  sessionLogInit() {
+    window.addEventListener(
+      'onload',
+      () => (this.sessionStats.enterTime = Date.now().toISOString())
+    );
+
+    window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        this.sessionStats.exitTime = Date.now().toISOString();
+
+        let blob = new Blob([JSON.stringify(this.sessionStats)], {
+          type: 'application/json',
+        });
+
+        navigator.sendBeacon(`${this.apiURL}/logSession`, blob);
+        this.sessionStats.enterTime = '';
+        this.sessionStats.exitTime = '';
+        console.log('eyasdfh');
+      }
+    });
   }
 
   //
@@ -182,19 +214,19 @@ class trackerApp {
     }
   };
 
-  logSession = async info => {
-    try {
-      const res = await axios.patch(
-        `${this.apiURL}/logSession`,
-        info,
-        this.axiosConfig
-      );
+  // logSession = async info => {
+  //   try {
+  //     const res = await axios.patch(
+  //       `${this.apiURL}/logSession`,
+  //       info,
+  //       this.axiosConfig
+  //     );
 
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     console.log(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 }
 
-export default trackerApp;
+// export default trackerApp;
