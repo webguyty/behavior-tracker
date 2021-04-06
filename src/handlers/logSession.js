@@ -20,7 +20,7 @@ async function logSession(event, context) {
       sessionTime,
     },
   ];
-
+  console.log('fuckin fired');
   //
   // Make API call
   //

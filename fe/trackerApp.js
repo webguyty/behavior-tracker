@@ -69,23 +69,25 @@ class trackerApp {
   // Session event listener
   //
   sessionLogInit() {
-    window.addEventListener(
-      'onload',
-      () => (this.sessionStats.enterTime = Date.now().toISOString())
-    );
+    window.addEventListener('onload', () => {
+      this.sessionStats.enterTime = new Date().toISOString();
+    });
 
     window.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
-        this.sessionStats.exitTime = Date.now().toISOString();
+        this.sessionStats.exitTime = new Date().toISOString();
 
-        let blob = new Blob([JSON.stringify(this.sessionStats)], {
-          type: 'application/json',
-        });
+        this.logSession(this.sessionStats);
 
-        navigator.sendBeacon(`${this.apiURL}/logSession`, blob);
+        // let blob = new Blob([JSON.stringify(this.sessionStats)], {
+        //   type: 'application/json',
+        // });
+
+        // navigator.sendBeacon(`${this.apiURL}/logSession`, blob);
+        console.log('sfdas');
         this.sessionStats.enterTime = '';
         this.sessionStats.exitTime = '';
-        console.log('eyasdfh');
+        // console.log(res);
       }
     });
   }
@@ -214,19 +216,28 @@ class trackerApp {
     }
   };
 
-  // logSession = async info => {
-  //   try {
-  //     const res = await axios.patch(
-  //       `${this.apiURL}/logSession`,
-  //       info,
-  //       this.axiosConfig
-  //     );
-
-  //     console.log(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  logSession = async info => {
+    console.log('1111');
+    try {
+      console.log('2222');
+      // const res = await axios.patch(
+      //   `${this.apiURL}/logSession`,
+      //   info,
+      //   this.axiosConfig
+      // );
+      const res = await fetch(`${this.apiURL}/logSession`, {
+        method: 'POST',
+        headers: this.axiosConfig.headers,
+        body: JSON.stringify(info),
+        keepalive: true,
+      });
+      console.log('333333');
+      console.log(res);
+    } catch (err) {
+      console.log('errorororor');
+      console.log(err);
+    }
+  };
 }
 
 // export default trackerApp;
