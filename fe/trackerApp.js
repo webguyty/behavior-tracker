@@ -54,6 +54,9 @@ class trackerApp {
     let now = new Date();
     this.divStats.enterTime = now.toISOString();
 
+    // add time for session tracking
+    this.sessionStats.enterTime = now.toISOString();
+
     // Add gumshoe event listeners for logging divs entered and exited
     this.gsDivEnter();
     this.gsDivExit();
@@ -69,11 +72,11 @@ class trackerApp {
   // Session event listener
   //
   sessionLogInit() {
-    window.addEventListener('onload', () => {
-      this.sessionStats.enterTime = new Date().toISOString();
-    });
-
     window.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.sessionStats.enterTime = new Date().toISOString();
+      }
+
       if (document.visibilityState === 'hidden') {
         this.sessionStats.exitTime = new Date().toISOString();
 
@@ -195,8 +198,6 @@ class trackerApp {
         info,
         this.axiosConfig
       );
-
-      // console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -217,24 +218,14 @@ class trackerApp {
   };
 
   logSession = async info => {
-    console.log('1111');
     try {
-      console.log('2222');
-      // const res = await axios.patch(
-      //   `${this.apiURL}/logSession`,
-      //   info,
-      //   this.axiosConfig
-      // );
       const res = await fetch(`${this.apiURL}/logSession`, {
         method: 'POST',
         headers: this.axiosConfig.headers,
         body: JSON.stringify(info),
         keepalive: true,
       });
-      console.log('333333');
-      console.log(res);
     } catch (err) {
-      console.log('errorororor');
       console.log(err);
     }
   };

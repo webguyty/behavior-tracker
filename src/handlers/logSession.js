@@ -5,13 +5,14 @@ import corsHeaders from '../../utils/corsHeaders';
 const cors = corsHeaders();
 
 async function logSession(event, context) {
+  console.log(event.body);
   const info = JSON.parse(event.body);
   let { enterTime, exitTime } = info;
 
   // Find length of time on div
-  enterTime = new Date(enterTime);
-  exitTime = new Date(exitTime);
-  let sessionTime = (exitTime - enterTime) / 1000;
+  let enter = new Date(enterTime);
+  let exit = new Date(exitTime);
+  const sessionTime = (exit - enter) / 1000;
 
   const sessionArr = [
     {
@@ -20,7 +21,7 @@ async function logSession(event, context) {
       sessionTime,
     },
   ];
-  console.log('fuckin fired');
+  console.log(sessionArr);
   //
   // Make API call
   //
