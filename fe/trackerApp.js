@@ -41,64 +41,63 @@ class trackerApp {
 
   start() {
     // init gumshoe
-    const spy = new Gumshoe('#menu a', {
+    const spy = new Gumshoe('#my-awesome-nav a', {
       offset: 200,
       nested: true,
     });
 
     // Log user's info into db and into user obj
+    // REQUIRED
+    this.trackUser();
+
+    // Initial optional trackers
+    this.trackDivs();
+    this.trackLinks();
+    this.trackSessions();
+  }
+
+  // Required - Log user's info into db and into user obj
+  trackUser() {
     this.logUser();
-
-    // Configure for reading first div 'header' when page loads. If page is reloaded a reload message will appear
-    this.divStats.divName = 'header';
-    let now = new Date();
-    this.divStats.enterTime = now.toISOString();
-
-    // add time for session tracking
-    this.sessionStats.enterTime = now.toISOString();
-
-    // Add gumshoe event listeners for logging divs entered and exited
-    this.gsDivEnter();
-    this.gsDivExit();
-    // Add listeners for logging links visisted
-    this.linkListeners();
-
-    this.sessionLogInit();
-
-    console.log('started');
   }
 
   //
   // Session event listener
   //
-  sessionLogInit() {
+  trackSessions() {
+    // add start time for session tracking
+    let now = new Date();
+    this.sessionStats.enterTime = now.toISOString();
+
     window.addEventListener('visibilitychange', () => {
+      // If user hides and comes back to page consider it a new session
       if (document.visibilityState === 'visible') {
         this.sessionStats.enterTime = new Date().toISOString();
       }
 
+      // If user leaves or hides page send logSession API call
       if (document.visibilityState === 'hidden') {
         this.sessionStats.exitTime = new Date().toISOString();
 
         this.logSession(this.sessionStats);
 
-        // let blob = new Blob([JSON.stringify(this.sessionStats)], {
-        //   type: 'application/json',
-        // });
-
-        // navigator.sendBeacon(`${this.apiURL}/logSession`, blob);
-        console.log('sfdas');
         this.sessionStats.enterTime = '';
         this.sessionStats.exitTime = '';
-        // console.log(res);
       }
     });
   }
 
   //
   // Gumshoe - div and link tracking
-  // Add event listeners to log div time with Gumshoe
-  gsDivEnter() {
+  //
+
+  trackDivs() {
+    // Configure for reading first div 'header' when page loads. If page is reloaded a reload message will appear
+    this.divStats.divName = 'header';
+    let now = new Date();
+    this.divStats.enterTime = now.toISOString();
+
+    // Add event listeners to log div time with Gumshoe
     // When div becomes active on screen, activate Gumshoe
     document.addEventListener(
       'gumshoeActivate',
@@ -113,9 +112,8 @@ class trackerApp {
       },
       false
     );
-  }
-  // When div becomes deactive on screen, deactivate Gumshoe
-  gsDivExit() {
+
+    // When div becomes deactive on screen, deactivate Gumshoe
     document.addEventListener(
       'gumshoeDeactivate',
       event => {
@@ -143,7 +141,7 @@ class trackerApp {
   }
 
   // Event listeners for links
-  linkListeners() {
+  trackLinks() {
     const links = document.querySelectorAll('a');
 
     links.forEach(link => {

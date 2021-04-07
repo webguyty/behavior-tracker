@@ -5,7 +5,6 @@ import corsHeaders from '../../utils/corsHeaders';
 const cors = corsHeaders();
 
 async function logSession(event, context) {
-  console.log(event.body);
   const info = JSON.parse(event.body);
   let { enterTime, exitTime } = info;
 
@@ -21,33 +20,61 @@ async function logSession(event, context) {
       sessionTime,
     },
   ];
-  console.log(sessionArr);
-  //
-  // Make API call
-  //
 
   // Get user IP address and only take first value for put into table
   let ip = event.headers['X-Forwarded-For'];
   ip = ip.split(',');
   ip = ip[0];
 
-  const params = {
-    TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
-    Key: { ip },
-    UpdateExpression:
-      'SET #sessions = list_append(if_not_exists(#sessions, :create_list), :sessionArr)',
-    ExpressionAttributeNames: {
-      '#sessions': 'sessions',
-    },
-    ExpressionAttributeValues: {
-      ':sessionArr': sessionArr,
-      ':create_list': [],
-    },
-    ReturnValues: 'NONE',
-  };
+  //
+  // Make API call to post user session
+  //
 
   try {
+    // Record user session - enter and exit time
+    // Return records
+    let params = {
+      TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
+      Key: { ip },
+      UpdateExpression:
+        'SET #sessions = list_append(if_not_exists(#sessions, :create_list), :sessionArr)',
+      ExpressionAttributeNames: {
+        '#sessions': 'sessions',
+      },
+      ExpressionAttributeValues: {
+        ':sessionArr': sessionArr,
+        ':create_list': [],
+      },
+      ReturnValues: 'ALL_OLD',
+    };
+
     const result = await dynamodb.update(params).promise();
+    console.log(result);
+
+    //  compute total session time
+    const allSessions = result.Attributes.sessions;
+    let [totalTime, sessionCount] = [0, 0];
+    allSessions.forEach(s => {
+      totalTime += s.sessionTime;
+      sessionCount++;
+    });
+
+    // Record overall user session time
+    params = {
+      TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
+      Key: { ip },
+      UpdateExpression:
+        'SET sessionsInfo.totalTime = :totalTime, sessionsInfo.count = :sessionCount',
+      ExpressionAttributeValues: {
+        ':totalTime': totalTime,
+        ':sessionCount': sessionCount,
+      },
+    };
+
+    await dynamodb.update(params).promise();
+
+    // Side effect - calculate session stats information
+    console.log(`Theeeeee result is: ${JSON.stringify(result)}`);
     return {
       statusCode: 200,
       headers: cors,
