@@ -63,8 +63,11 @@ async function logSession(event, context) {
     params = {
       TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Key: { ip },
-      UpdateExpression:
-        'SET sessionsInfo.totalTime = :totalTime, sessionsInfo.count = :sessionCount',
+      UpdateExpression: 'SET #st = :totalTime, #sc = :sessionCount',
+      ExpressionAttributeNames: {
+        '#st': 'sessionsInfo.totalTime',
+        '#sc': 'sessionsInfo.count',
+      },
       ExpressionAttributeValues: {
         ':totalTime': totalTime,
         ':sessionCount': sessionCount,
@@ -74,7 +77,7 @@ async function logSession(event, context) {
     await dynamodb.update(params).promise();
 
     // Side effect - calculate session stats information
-    console.log(`Theeeeee result is: ${JSON.stringify(result)}`);
+    // console.log(`Theeeeee result is: ${JSON.stringify(result)}`);
     return {
       statusCode: 200,
       headers: cors,
