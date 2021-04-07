@@ -53,24 +53,28 @@ async function logSession(event, context) {
 
     //  compute total session time
     const allSessions = result.Attributes.sessions;
-    let [totalTime, sessionCount] = [0, 0];
+    let totalTime = 0;
+    let count = 1;
     allSessions.forEach(s => {
       totalTime += s.sessionTime;
-      sessionCount++;
+      count++;
     });
-
+    const allSessionsInfo = {
+      totalTime,
+      count,
+    };
     // Record overall user session time
     params = {
       TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Key: { ip },
-      UpdateExpression: 'SET #st = :totalTime, #sc = :sessionCount',
+      UpdateExpression: 'SET #si = :ss',
       ExpressionAttributeNames: {
-        '#st': 'sessionsInfo.totalTime',
-        '#sc': 'sessionsInfo.count',
+        '#si': 'sessionsInfo',
+        // '#sc': 'sessionsInfo.count',
       },
       ExpressionAttributeValues: {
-        ':totalTime': totalTime,
-        ':sessionCount': sessionCount,
+        ':ss': allSessionsInfo,
+        // ':sessionCount': sessionCount,
       },
     };
 
