@@ -49,10 +49,11 @@ async function logSession(event, context) {
     };
 
     const result = await dynamodb.update(params).promise();
-    console.log(result);
 
-    //  compute total session time
+    // Side effect - calculate session stats information
+    // compute total session time
     const allSessions = result.Attributes.sessions;
+
     let totalTime = 0;
     let count = 1;
     allSessions.forEach(s => {
@@ -63,25 +64,21 @@ async function logSession(event, context) {
       totalTime,
       count,
     };
-    // Record overall user session time
+    // Record overall user session time and count
     params = {
       TableName: process.env.PORTFOLIO_TRACKER_TABLE_NAME,
       Key: { ip },
       UpdateExpression: 'SET #si = :ss',
       ExpressionAttributeNames: {
         '#si': 'sessionsInfo',
-        // '#sc': 'sessionsInfo.count',
       },
       ExpressionAttributeValues: {
         ':ss': allSessionsInfo,
-        // ':sessionCount': sessionCount,
       },
     };
 
     await dynamodb.update(params).promise();
 
-    // Side effect - calculate session stats information
-    // console.log(`Theeeeee result is: ${JSON.stringify(result)}`);
     return {
       statusCode: 200,
       headers: cors,
