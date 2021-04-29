@@ -24,6 +24,8 @@ async function logUser(event, context) {
     city: ipResult.city,
     country: ipResult.country,
     zip: ipResult.postal_code,
+    lat: ipResult.latitude,
+    long: ipResult.longitude,
   };
 
   // Get state location from zip code
