@@ -12,6 +12,8 @@ class trackerApp {
         state: '',
         country: '',
         zip: '',
+        lat: '',
+        long: '',
       },
       visits: [],
       divVisits: [],
